@@ -74,3 +74,7 @@ eleme e [] = False
 eleme e (x:xs) | e == x = True
                | otherwise = eleme e xs
 
+
+dooble :: Num a => a -> a
+dooble x = x + x
+
