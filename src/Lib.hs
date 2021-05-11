@@ -52,9 +52,12 @@ rvrs (x:xs) = rvrs xs ++ [x]
 --      | otherwise fac (n-1) * n
 
 aand :: [Bool] -> Bool
+aand [] = True
 aand (False:_) = False
 aand [True] = True
 aand (_:bs) = aand bs
+
+-- and (b:bs) = b && and bs
 
 konkat :: [[a]] -> [a]
 konkat [] = []
@@ -63,6 +66,7 @@ konkat (xs:xss) = xs ++ konkat xss
 replikate :: Int -> a -> [a]
 replikate 0 _ = []
 replikate n x = [x] ++ replikate (n-1) x
+-- replikate n x = x : replikate (n-1) x
 
 -- assume index is always i >= 0 and i < length xs
 (!!!!) :: [a] -> Int -> a
@@ -78,3 +82,25 @@ eleme e (x:xs) | e == x = True
 dooble :: Num a => a -> a
 dooble x = x + x
 
+-- assume inputs are two ordered list
+merges :: [Int] -> [Int] -> [Int]
+merges xs [] = xs
+merges [] ys = ys
+merges (x:xs) (y:ys) = if x <= y then x : merges xs (y:ys) else y : merges (x:xs) ys
+--merge (x:xs) (y:ys) | x > y =  y:(merge (x:xs) ys)
+--                    | otherwise =  x:(merge xs (y:ys))
+
+inzert :: Int -> [Int] -> [Int]
+inzert n xs = smaller ++ [n] ++ larger
+                where
+                  smaller = [a | a <- xs, a <= n]
+                  larger  =  [b | b <- xs, b > n]
+
+insRec :: Int -> [Int] -> [Int]
+insRec n [] = [n]
+insRec n (x:xs) | n <= x = [n] ++ (x:xs) -- n:(x:xs) or n:x:xs
+                | otherwise = x: (insRec n xs)
+
+isort :: [Int] -> [Int]
+isort [] = []
+isort (x:xs) = insRec x (isort xs) --magic
