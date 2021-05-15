@@ -1,4 +1,8 @@
 import Data.List
+{-# LANGUAGE FlexibleContexts #-}
+
+import Prelude hiding (flip)
+import Prelude hiding (add)
 
 {- names are typed wrong because of prelude naming conflicts -}
 
@@ -104,3 +108,38 @@ insRec n (x:xs) | n <= x = [n] ++ (x:xs) -- n:(x:xs) or n:x:xs
 isort :: [Int] -> [Int]
 isort [] = []
 isort (x:xs) = insRec x (isort xs) --magic
+
+
+twise :: (a -> a) -> a -> a
+twise f x = f ( f x )
+
+twys = twise
+
+--assume n is positive and length xs > n
+dropp :: Int -> [a] -> [a]
+dropp 0 xs = xs
+dropp _ [] = []
+dropp n (x:xs) = dropp (n-1) xs
+
+
+removeLast :: [a] -> [a]
+removeLast [] = []
+removeLast [_] = []
+removeLast (x:xs) = x:removeLast xs
+
+data Shape = Circle Float | Rect Float Float deriving (Show)
+square :: Float -> Shape
+square n = Rect n n
+
+area :: Shape -> Float
+area (Circle r) = 3.14 * r * r
+area (Rect x y) = x * y
+
+--type Pair = (Int,Int)
+--copy :: Int -> Pair
+--copy x = (x,x)
+
+--If we want to make pair with polymorphic values
+type Pair a = (a,a) -- Pair of a
+copy :: a -> Pair a
+copy x = (x,x)
