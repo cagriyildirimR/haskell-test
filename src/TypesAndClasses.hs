@@ -1,3 +1,44 @@
+-- [Char], (Char, Char, Char), [(Bool, Char)], ([Bool],[Char]), [[a]->[a]]
+bools :: [Bool]
+bools = [True, True, False]
+
+nums :: [[Int]]
+nums = [[1,2,3],[4,5]]
+
+add :: Int -> Int -> Int -> Int
+add x y z = x + y + z
+
+copy :: a -> (a,a)
+copy n = (n,n)
+
+apply :: (String -> Int) -> String -> Int
+apply f n = f n
+-- apply (\n -> length n) "Hello World"
+
+
+-- [a] -> a, (a,b)->(b,a), a -> b -> (a,b), Num a => a -> a, [a] -> Bool, (a -> b) -> a -> b
+-- palindrome :: Eq a => [a] -> Bool
+-- twice  (t -> t) -> t -> t
+
+second xs = head(tail xs)
+swap (x,y) = (y,x)
+pair x y = (x,y)
+double x = x*2
+palindrome xs = reverse xs == xs
+twice f x = f(f x)
+
+--Note that function types are not in general instances of the Eq class,
+-- because it is not feasible in general to compare two functions for equality
+
+data Shape = Circle Float | Rect Float Float
+
+instance Eq Shape where
+  Circle a == Circle b = a == b
+
+instance Ord Shape where
+    Circle a <= Circle b = a <= b
+
+
 -- 3 different approaches to declearing types
 
 type XYZPos = (Int, Int, Int) -- creating new name for already existing type
